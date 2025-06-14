@@ -34,6 +34,17 @@ router.get("/my", verifyToken, async (req, res) => {
   }
 });
 
+// Tek bir ilanı getir
+router.get("/:id", async (req, res) => {
+  try {
+    const pet = await Pet.findById(req.params.id);
+    if (!pet) return res.status(404).json({ error: "İlan bulunamadı" });
+    res.json(pet);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // İlan güncelle
 router.put("/:id", verifyToken, async (req, res) => {
   try {
