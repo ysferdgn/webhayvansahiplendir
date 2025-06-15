@@ -79,4 +79,14 @@ router.delete("/:id", verifyToken, async (req, res) => {
   }
 });
 
+// Belirli bir kullanıcıya ait ilanları getir
+router.get("/user/:userId", async (req, res) => {
+  try {
+    const userPets = await Pet.find({ ownerId: req.params.userId }).sort({ createdAt: -1 });
+    res.json(userPets);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
